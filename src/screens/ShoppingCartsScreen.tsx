@@ -100,7 +100,7 @@ const ShoppingCartListItem = ({
 
       <View className="mt-3 border-t border-gray-700 pt-3">
         <Text className="font-medium text-gray-300 mb-2">Items ({cart.shopping_cart_items.length}):</Text>
-        <View style={styles.itemsContainer}>
+        <View>
           {cart.shopping_cart_items.map((item) => (
             <View
               key={item.id}
@@ -136,8 +136,5 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 16,
-  },
-  itemsContainer: {
-    maxHeight: 160,
   },
 });
