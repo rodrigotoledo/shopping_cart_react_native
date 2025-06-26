@@ -15,3 +15,15 @@ export type ShoppingCart = {
 }
 
 export type ShoppingCartStatus = 'pending' | 'paid'
+
+
+export type MainNavigatorParams = {
+  PendingCarts: { status: 'pending' };
+  PaidCarts: { status: 'paid' };
+};
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends MainNavigatorParams {}
+  }
+}

@@ -1,15 +1,15 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTheme } from 'react-native-paper';
-import PendingCartsScreen from '../screens/PendingCartsScreen';
-import PaidCartsScreen from '../screens/PaidCartsScreen';
+import { ShoppingCartsScreen } from '../screens/ShoppingCartsScreen';
 import DashboardScreen from '../screens/DashboardScreen';
+import { MainNavigatorParams } from '../types';
 
-type MainNavigatorParams = {
-  Dashboard: undefined;
-  PendingCarts: undefined;
-  PaidCarts: undefined;
-};
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends MainNavigatorParams {}
+  }
+}
 
 const Top = createMaterialTopTabNavigator<MainNavigatorParams>();
 
@@ -41,13 +41,15 @@ export const MainNavigator: React.FC = () => {
       />
       <Top.Screen
         name="PendingCarts"
-        component={PendingCartsScreen}
+        component={ShoppingCartsScreen}
         options={{ title: 'Pending Carts' }}
+        initialParams={{ status: 'pending' }}
       />
       <Top.Screen
         name="PaidCarts"
-        component={PaidCartsScreen}
+        component={ShoppingCartsScreen}
         options={{ title: 'Paids' }}
+        initialParams={{ status: 'paid' }}
       />
     </Top.Navigator>
   );

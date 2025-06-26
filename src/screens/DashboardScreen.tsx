@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer'
 import { useShoppingCart } from '../contexts/ShoppingCartContext'
 import { DarkTheme, useNavigation } from '@react-navigation/native';
