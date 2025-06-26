@@ -1,5 +1,5 @@
 // src/axiosConfig.js
 import axios from 'axios';
-import Config from 'react-native-config';
-axios.defaults.baseURL = Config.API_URL;
+import { API_URL } from '@env';
+axios.defaults.baseURL = API_URL;
 export default axios;

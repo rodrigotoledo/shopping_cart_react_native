@@ -16,7 +16,7 @@ interface PaperProviderWrapperProps {
 
 export const PaperProviderWrapper: React.FC<PaperProviderWrapperProps> = ({
   children,
-  darkMode = false
+  darkMode = true
 }) => {
   const theme = darkMode ? AppDarkTheme : AppLightTheme;
 

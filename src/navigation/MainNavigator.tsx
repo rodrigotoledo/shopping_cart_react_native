@@ -19,11 +19,18 @@ export const MainNavigator: React.FC = () => {
   return (
     <Top.Navigator
       screenOptions={{
-        tabBarActiveTintColor: theme.colors.primary,
+        tabBarActiveTintColor: theme.colors.onSurfaceVariant,
         tabBarInactiveTintColor: theme.colors.onSurfaceVariant,
         tabBarIndicatorStyle: {
-          backgroundColor: theme.colors.primary,
-          height: 1,
+          backgroundColor: theme.colors.surface,
+          height: 2,
+        },
+        tabBarStyle: {
+          backgroundColor: theme.colors.primaryContainer, // Fundo mais escuro
+        },
+        tabBarPressColor: theme.colors.primaryContainer,
+        tabBarLabelStyle: {
+          fontWeight: 'bold',
         },
       }}
     >
