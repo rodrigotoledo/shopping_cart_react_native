@@ -77,6 +77,16 @@ const ShoppingCartListItem = ({
     0
   );
 
+  const { payCart, payError } = useShoppingCart()
+
+  const handlePay = async () => {
+    try {
+      await payCart(cart.id)
+    } catch (error) {
+      console.error('Payment failed:', error)
+    }
+  }
+
   const createdAt = new Date(cart.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -93,9 +103,16 @@ const ShoppingCartListItem = ({
           <Text className="text-xl font-semibold text-white">{cart.customer}</Text>
           <Text className="text-gray-400 text-sm">{createdAt}</Text>
         </View>
-        <View className={`px-3 py-1 rounded-full ${status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'}`}>
+        <TouchableOpacity
+          onPress={handlePay}
+          disabled={cart.status === 'paid'}
+          className={`ml-2 px-3 py-1 rounded-full text-xs font-medium text-nowrap ${
+            cart.status === 'pending' ? 'bg-yellow-500' : 'bg-green-500'} text-white`
+          }
+          >
           <Text className="text-xs font-medium text-white">{status}</Text>
-        </View>
+        </TouchableOpacity>
+        {payError && <Text className="error">Error: {payError.message}</Text>}
       </View>
 
       <View className="mt-3 border-t border-gray-700 pt-3">
