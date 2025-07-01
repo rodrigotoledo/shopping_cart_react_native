@@ -1,6 +1,6 @@
 // src/contexts/ShoppingCartContext.tsx
 import { createContext, useContext, useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import apiClient from '../api/httpClient'
 import { ShoppingCart } from '../types';
 
@@ -9,13 +9,17 @@ type ShoppingCartContextData = {
   pendingCarts: ShoppingCart[] | undefined
   paidCarts: ShoppingCart[] | undefined
   isLoading: boolean
-  error: Error | null,
+  error: Error | null
   refetch: () => Promise<unknown>
+  payCart: (cartId: number) => Promise<void>
+  isPaying: boolean
+  payError: Error | null
 }
 
 const ShoppingCartContext = createContext<ShoppingCartContextData | undefined>(undefined)
 
 export const ShoppingCartProvider = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = useQueryClient()
   const {
     data: allCarts,
     isLoading,
@@ -29,6 +33,19 @@ export const ShoppingCartProvider = ({ children }: { children: React.ReactNode }
     },
     refetchInterval: 3000,
     staleTime: 1000,
+  })
+
+  const {
+    mutateAsync: payCart,
+    isPending: isPaying,  // <<-- Aqui está a correção crucial
+    error: payError
+  } = useMutation<void, Error, number>({
+    mutationFn: async (cartId: number) => {
+      await apiClient.put(`/shopping_carts/${cartId}/pay`)
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['shoppingCarts'], exact: true })
+    }
   })
 
   const pendingCarts = useMemo(
@@ -49,7 +66,10 @@ export const ShoppingCartProvider = ({ children }: { children: React.ReactNode }
         paidCarts,
         isLoading,
         error,
-        refetch
+        refetch,
+        payCart,
+        isPaying,
+        payError
       }}
     >
       {children}
